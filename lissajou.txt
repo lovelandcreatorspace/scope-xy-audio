@@ -1,0 +1,28 @@
+lissajou.{py,sh} is a very simple application for drawing Lissajou figures
+on an oscilloscope running in X-Y mode.
+
+To run it, simply run ./lissajou.sh.
+
+This runs lissajou.py to generate the audio, and then pipes in into aplay to
+send it to your sound card.
+
+Controls:
+
+Note: Focus needs to be on the "pygame" window for the controls to work.
+
+q / numpad 7: Left channel frequency up
+z / numpad 1: Left channel frequency down
+e / numpad 9: Right channel frequency up
+c / numpad 3: Right channel frequency down
+a / numpad 4: Phase shift "left"
+d / numpad 6: Phase shift "right"
+x:            Exit
+
+Look in the shell to see the current frequency/phase values.
+
+Future plans:
+* Set a sensible window title.
+* Display current frequency/phase values in the pygame window.
+* Mouse input and on-screen sliders for control.
+* Draw the sin waves separately in the pygame window.
+* (Probably a separate project) Render the result in X-Y mode like a 'scope.
