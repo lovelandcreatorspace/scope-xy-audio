@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 
 # Copyright (c) 2014 Stephen Warren <swarren@wwwdotorg.org>
 #
@@ -61,27 +61,22 @@ sample_count = sample_rate * seconds
 
 f = open('/dev/stdout', 'wb')
 
-header_len = 16 + 2 + 22
+header_len = 18
 data_len = sample_count * channels * sample_bytes
 
 f.write('RIFF')
 write_u32(f, data_len + header_len + 12) # RIFF section length (whole file minus 'RIFF')
 f.write('WAVE')
 f.write('fmt ')
-# WAVEFORMAT header
+# WAVEFORMATEX header (header_len + 18)
 write_u32(f, header_len) # fmt section length
-write_u16(f, 0xfffe) # extensible?
+write_u16(f, 1) # PCM
 write_u16(f, channels) # channel count
 write_u32(f, sample_rate) # frequency
 write_u32(f, sample_rate * channels * sample_bytes) # byte-rate
 write_u16(f, channels * sample_bytes) # block align
 write_u16(f, sample_bits) # bits/sample/channel
-# WAVEFORMATEX header
 write_u16(f, header_len - (16 + 2))
-# WAVEFORMATEXTENSIBLE header
-write_u16(f, sample_bits) # bits/sample/channel
-write_u32(f, (1 << channels) - 1) # channel mask
-f.write('\x01\x00\x00\x00\x00\x00\x10\x00\x80\x00\x00\xaa\x00\x38\x9b\x71') # GUID KSDATAFORMAT_SUBTYPE_PCM
 f.write('data')
 write_u32(f, data_len)
 
