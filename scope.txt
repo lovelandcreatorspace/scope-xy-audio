@@ -1,0 +1,18 @@
+scope.py is an oscilloscope emulator. Simply pipe a WAV file into it, and it
+will render the file for you. For example:
+
+./lissajous.py | ./scope.py
+
+./scope.py < oscillofun.wav
+
+Controls:
+Note: Focus needs to be on the "pygame" window for the controls to work.
+x: Exit
+
+If you wish to listen to the audio stream at the same time as running
+scope.py, try running the following command under Bash:
+
+tee <oscillofun.wav >(./scope.py) | aplay /dev/stdin
+
+While there's plenty of opportunity for A/V synchronization to fail, it works
+surprisingly well on my system.
