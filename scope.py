@@ -36,6 +36,20 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
 
+# FIXME: we should have cmdline parameters to configure this.
+if True: # oscillofun
+    x_ch = 0
+    y_ch = 1
+    x_inv = -1
+    y_inv = -1
+else: # youscope, beams of light
+    x_ch = 1
+    y_ch = 0
+    x_inv = 1
+    y_inv = 1
+
+iters_per_frame = 1
+
 sample_rate = 48000
 num_channels = 2
 bits_per_sample = 16
@@ -53,9 +67,11 @@ def open_wav(f):
     sample_rate = w.getframerate()
     num_channels = w.getnchannels()
     bits_per_sample = w.getsampwidth() * 8
+    if bits_per_sample != 16:
+        raise Exception('Only 16-bit audio is supported')
 
 def read_data_chunk_from_wav():
-    data = w.readframes(sample_rate / 60)
+    data = w.readframes(sample_rate / (60 * iters_per_frame))
     return data
 
 def create_window():
@@ -67,9 +83,7 @@ def create_window():
     glEnable(GL_BLEND)
 
 def react_to_wav_parameters():
-    # FIXME: These signs are correct for oscillofun, but perhaps not other files.
-    # We should have cmdline parameters to configure this.
-    gluOrtho2D(max_sample_value, -max_sample_value, max_sample_value, -max_sample_value)
+    gluOrtho2D(-max_sample_value * x_inv, max_sample_value * x_inv, -max_sample_value * y_inv, max_sample_value * y_inv)
 
 def fade_image():
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
@@ -93,10 +107,12 @@ def draw_samples(data):
     glBlendFunc(GL_SRC_ALPHA, GL_ONE)
     glLineWidth(2)
     glBegin(GL_LINES)
-    # FIXME: This doesn't handle anything other than stereo 16-bit signed
-    for sample in range(len(data) / 4):
-        # FIXME: Some files swap x, y. We should have a cmdline parameter to configure this
-        x, y = struct.unpack('<hh', data[(sample * 4):(sample * 4) + 4])
+    # FIXME: This doesn't handle anything other than 16-bit signed
+    for sample in xrange(len(data) / (2 * num_channels)):
+        # FIXME: We should probably pre-calculate some of this
+        channels = struct.unpack('<' + ('h' * num_channels), data[sample * 2 * num_channels:(sample + 1) * 2 * num_channels])
+        x = channels[x_ch]
+        y = channels[y_ch]
         # FIXME: The alpha calculations here were pulled out of thin air...
         # Still, they look reasonable on most of oscillofun and youscope.
         # I suspect we really need a non-linear response curve though
@@ -135,15 +151,16 @@ def main():
                 break
         if quit:
             break
-        d = read_data_chunk_from_wav()
-        if not d:
-            # FIXME: It'd be nice to accept multiple files back-to-back and
-            # keep going. A cmdline option to select the mode would be useful.
-            # To do that, call open_wav() and react_to_wav_parameters() here.
-            break
-        draw_samples(d)
+        for i in xrange(iters_per_frame):
+            fade_image()
+            d = read_data_chunk_from_wav()
+            if not d:
+                # FIXME: It'd be nice to accept multiple files back-to-back and
+                # keep going. A cmdline option to select the mode would be useful.
+                # To do that, call open_wav() and react_to_wav_parameters() here.
+                sys.exit(0)
+            draw_samples(d)
         end_image()
-        fade_image()
 
 if __name__ == '__main__':
     main()
