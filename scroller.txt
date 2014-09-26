@@ -1,0 +1,14 @@
+scroller.py,sh renders audio for an x-y 'scope, to scroll some text across the
+screen.
+
+To run it, simply run ./scroller.py. You can pipe the output to either
+"scope.py" or "aplay /dev/stdin".
+
+One day it might grow features like:
+* Full character set, including lower-case, symbols, etc.
+* Better clipping
+* Logo drawing
+* Variable-width fonts
+* Dynamic scaling of text
+* Rotation
+...
