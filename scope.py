@@ -37,12 +37,12 @@ from OpenGL.GLU import *
 from OpenGL.GLUT import *
 
 # FIXME: we should have cmdline parameters to configure this.
-if True: # oscillofun
+if False: # oscillofun
     x_ch = 0
     y_ch = 1
     x_inv = -1
     y_inv = -1
-else: # youscope, beams of light
+else: # youscope, beams of light, scroller
     x_ch = 1
     y_ch = 0
     x_inv = 1
@@ -117,15 +117,9 @@ def draw_samples(data):
         # Still, they look reasonable on most of oscillofun and youscope.
         # I suspect we really need a non-linear response curve though
         line_len = math.sqrt(((x - prev_x) ** 2) + ((y - prev_y) ** 2))
-        if line_len > max_sample_value:
-            line_len = max_sample_value
-        fraction_of_long_line = line_len / max_sample_value
-        fraction_of_long_line *= 10
-        alpha_scale = 1 - fraction_of_long_line
-        if alpha_scale < 0:
-            alpha_scale = 0
-        alpha = 0.1 + (0.9 * alpha_scale)
-        glColor4f(0.0, 1.0, 0.0, alpha)
+        fraction_of_long_line = line_len / (4 * max_sample_value)
+        color_factor = (1 - fraction_of_long_line) ** 100
+        glColor4f(0.0, 1.0 * color_factor, 0.0, 1.0)
         glVertex3f(prev_x, prev_y, 0.0)
         glVertex3f(x, y, 0.0)
         prev_x = x

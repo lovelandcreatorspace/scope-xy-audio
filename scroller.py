@@ -41,7 +41,7 @@ def write_u8(f, n):
 sample_rate = 48000
 channels = 2
 sample_bits = 16
-seconds = 10 * 60
+seconds = 6 * 60 * 60 # can go up to a little over 6 hours
 
 sample_bytes = sample_bits / 8
 scale = (2 ** (sample_bits - 1)) - 1
@@ -181,7 +181,7 @@ def draw_SPACE(i):
 
 char_width = 1.2
 font_scale = 0.2
-s = 'LOVELAND CreatorSpace    '
+s = 'LOVELAND CreatorSpace   '
 
 IX_FUNC = 0
 IX_ITERS = 1
