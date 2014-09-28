@@ -84,88 +84,148 @@ def arc(x0, y0, sa, ea, na, w, h, i, n):
     y = y0 + h * math.sin(a)
     return x, y
 
-def draw_L(i):
-    if chi < 36:
-        return lerp2d(-1, 1, -1, -1, i, 35)
-    else:
-        return lerp2d(-1, -1, 1, -1, i - 36, 11)
-
-def draw_O(i):
-    return arc(0, 0, 0, 1, 1, 1, 1, i, 47)
-
-def draw_V(i):
-    if i < 24:
-        return lerp2d(-1, 1, 0, -1, i, 23)
-    else:
-        return lerp2d(0, -1, 1, 1, (i - 24), 23)
-
-def draw_E(i):
-    if i < 10:
-        return lerp2d(1, 1, -1, 1, i, 9)
-    elif i < 28:
-        return lerp2d(-1, 1, -1, -1, i - 10, 17)
-    elif i < 38:
-        return lerp2d(-1, -1, 1, -1, i - 28, 9)
-    else:
-        return lerp2d(-1, 0, 1, 0, i - 38, 9)
-
 def draw_A(i):
     if i < 20:
-        return lerp2d(0, 1, 1, -1, i, 19)
+        return lerp2d(0.5, 1, 1, 0, i, 19)
     elif i < 40:
-        return lerp2d(-1, -1, 0, 1, i - 20, 19)
+        return lerp2d(0, 0, 0.5, 1, i - 20, 19)
     else:
-        return lerp2d(-0.5, 0, 0.5, 0, (i - 40), 7)
-
-def draw_N(i):
-    if i < 16:
-        return lerp2d(-1, -1, -1, 1, i, 15)
-    elif i < 32:
-        return lerp2d(-1, 1, 1, -1, (i - 16), 15)
-    else:
-        return lerp2d(1, -1, 1, 1, (i - 32), 15)
+        return lerp2d(0.25, 0.5, 0.75, 0.5, (i - 40), 7)
 
 def draw_D(i):
     if i < 16:
-        return lerp2d(-1, -1, -1, 1, i, 15)
+        return lerp2d(0, 0, 0, 1, i, 15)
     else:
-        return arc(-1, 0, 15, 0, 31, 2, 1, i, 31)
+        return arc(0, 0.5, 15, 0, 31, 0.75, 0.5, i, 31)
 
-s = 'LOVELAND'
+def draw_E(i):
+    if i < 10:
+        return lerp2d(0.75, 1, 0, 1, i, 9)
+    elif i < 28:
+        return lerp2d(0, 1, 0, 0, i - 10, 17)
+    elif i < 38:
+        return lerp2d(0, 0, 0.75, 0, i - 28, 9)
+    else:
+        return lerp2d(0, 0.5, 0.75, 0.5, i - 38, 9)
+
+def draw_N(i):
+    if i < 16:
+        return lerp2d(0, 0, 0, 1, i, 15)
+    elif i < 32:
+        return lerp2d(0, 1, 0.75, 0, (i - 16), 15)
+    else:
+        return lerp2d(0.75, 0, 0.75, 1, (i - 32), 15)
+
+def draw_L(i):
+    if i < 36:
+        return lerp2d(0, 1, 0, 0, i, 35)
+    else:
+        return lerp2d(0, 0, 0.75, 0, i - 36, 11)
+
+def draw_O(i):
+    return arc(0.5, 0.5, 0, 1, 1, 0.5, 0.5, i, 47)
+
+def draw_V(i):
+    if i < 24:
+        return lerp2d(0.5, 0, 1, 1, i, 23)
+    else:
+        return lerp2d(0, 1, 0.5, 0, i - 24, 23)
+
+def draw_C(i):
+    return arc(0.5, 0.5, 45, 325, 360, 0.5, 0.5, i, 47)
+
+def draw_S(i):
+    if i < 24:
+        return arc(0.75 / 2, 0.75, 0, 270, 360, 0.75 / 2, 0.25, i, 23)
+    else:
+        return arc(0.75 / 2, 0.25, 90, -180, 360, 0.75 / 2, 0.25, i - 24, 23)
+
+def draw_a(i):
+    if i < 36:
+        return arc(0.25, 0.25, 0, 1, 1, 0.25, 0.25, i, 35)
+    else:
+        return lerp2d(0.5, 0.45, 0.5, 0, i - 36, 11)
+
+def draw_c(i):
+    return arc(0.25, 0.25, 45, 325, 360, 0.25, 0.25, i, 47)
+
+def draw_e(i):
+    if i < 36:
+        return arc(0.25, 0.25, 0, 315, 360, 0.25, 0.25, i, 35)
+    else:
+        return lerp2d(0, 0.25, 0.5, 0.25, i - 36, 11)
+
+def draw_o(i):
+    return arc(0.25, 0.25, 0, 1, 1, 0.25, 0.25, i, 47)
+
+def draw_p(i):
+    if i < 24:
+        return arc(0.25, 0.25, 0, 1, 1, 0.25, 0.25, i, 23)
+    else:
+        return lerp2d(0, 0.5, 0, -0.5, i - 24, 23)
+
+def draw_r(i):
+    if i < 12:
+        return arc(0.25, 0.25, 45, 180, 360, 0.25, 0.25, i, 11)
+    else:
+        return lerp2d(0, 0, 0, 0.5, i - 12, 35)
+
+def draw_t(i):
+    if i < 12:
+        return lerp2d(0, 0.65, 0.5, 0.65, i, 11)
+    else:
+        return lerp2d(0.25, 0, 0.25, 1, i - 12, 35)
+
+def draw_SPACE(i):
+    return 0.5, 0.5
+
+char_width = 1.2
+font_scale = 0.2
+s = 'LOVELAND CreatorSpace    '
+
+IX_FUNC = 0
+IX_ITERS = 1
+IX_WIDTH = 2
 chmap = {
-    'A': draw_A,
-    'D': draw_D,
-    'E': draw_E,
-    'L': draw_L,
-    'N': draw_N,
-    'O': draw_O,
-    'V': draw_V,
+    'A': (draw_A, 48, char_width),
+    'C': (draw_C, 48, char_width),
+    'D': (draw_D, 48, char_width * 0.75),
+    'E': (draw_E, 48, char_width * 0.75),
+    'L': (draw_L, 48, char_width * 0.75),
+    'N': (draw_N, 48, char_width * 0.75),
+    'O': (draw_O, 48, char_width),
+    'S': (draw_S, 48, char_width * 0.75),
+    'V': (draw_V, 48, char_width),
+    'a': (draw_a, 48, char_width * 0.5),
+    'c': (draw_c, 48, char_width * 0.5),
+    'e': (draw_e, 48, char_width * 0.5),
+    'o': (draw_o, 48, char_width * 0.5),
+    'p': (draw_p, 48, char_width * 0.5),
+    'r': (draw_r, 48, char_width * 0.5),
+    't': (draw_t, 48, char_width * 0.5 * 0.9),
+    ' ': (draw_SPACE, 48, char_width),
 }
 
-xo = scale
-yo = 0
-xoch = 0
 
+first_sindex = 0
+first_xo = scale
+cur_yo = -font_scale * 0.5 * scale
+init_line = True
+init_ch = True
 for i in xrange(sample_count):
-    chn = (i / 48) % 8
-    chi = float(i % 48)
+    if init_line:
+        cur_sindex = first_sindex
+        cur_xo = first_xo
+        init_line = False
+    if init_ch:
+        cur_iter = 0
+        cur_ch = chmap[s[cur_sindex]]
+        init_ch = False
 
-    if chi == 0:
-        xoch += 0.12 * 2 * scale
-    if chn == 0 and chi == 0:
-        xoch = 0
-    if chn == 0 and chi == 0:
-        xo -= 100
-    if chn == 7 and chi == 47:
-        if xo + xoch < -scale:
-            xo = scale
+    x_ch, y_ch = cur_ch[IX_FUNC](cur_iter * 1.0)
 
-    x, y = chmap[s[chn]](chi)
-
-    x *= 0.1 * scale
-    y *= 0.1 * scale
-    x += xo + xoch
-    y += yo
+    x = cur_xo + x_ch * font_scale * scale
+    y = cur_yo + y_ch * font_scale * scale
 
     # FIXME: Need much better clipping than this!
     if x < -scale:
@@ -175,5 +235,19 @@ for i in xrange(sample_count):
 
     data = struct.pack('<hh', y, x)
     f.write(data)
+
+    cur_iter += 1
+    if cur_iter == cur_ch[IX_ITERS]:
+        init_ch = True
+        cur_xo += cur_ch[IX_WIDTH] * font_scale * scale
+        cur_sindex += 1
+        if cur_sindex == len(s):
+            cur_sindex = 0
+        if cur_xo <= -scale:
+            first_sindex = cur_sindex
+            first_xo = cur_xo
+        if cur_xo >= scale:
+            first_xo -= 100
+            init_line = True
 
 f.close()
